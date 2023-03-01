@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const User = require('./models/user');
-const Card = require('./models/card');
+const users = require('./routes/users');
+
 const {PORT = 3000} = process.env;
 
 const app = express();
@@ -14,22 +14,15 @@ mongoose.connect('mongodb://0.0.0.0:27017/mestodb', {
 })
 
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  req.user = {
+    _id: '63ffc51ff77baa70d52899e4'
+  };
 
-app.get('/users', (req, res) => {
-  res.send("Привет");
-})
+  next();
+});
 
-app.get('/users/:userId', (req, res) => {
-  res.send(req.params.userId);
-})
-
-app.post('/users', (req, res) => {
-  const {name, about, avatar} = req.body;
-
-  User.create({name, about, avatar})
-    .then(user => res.send({data: user}))
-    .catch(err => res.status(500).send({message: 'Произошла ошибка'}))
-})
+app.use('/users', users);
 
 
 app.listen(PORT, () => {
