@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const users = require('./routes/users');
+const cards = require('./routes/cards');
 
 const {PORT = 3000} = process.env;
 
@@ -14,6 +15,9 @@ mongoose.connect('mongodb://0.0.0.0:27017/mestodb', {
 })
 
 app.use(bodyParser.json());
+
+app.use('/users', users);
+
 app.use((req, res, next) => {
   req.user = {
     _id: '63ffc51ff77baa70d52899e4'
@@ -21,8 +25,7 @@ app.use((req, res, next) => {
 
   next();
 });
-
-app.use('/users', users);
+app.use('/cards', cards);
 
 
 app.listen(PORT, () => {
