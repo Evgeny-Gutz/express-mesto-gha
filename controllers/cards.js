@@ -8,7 +8,7 @@ const {
 module.exports.getCards = (req, res) => {
   Cards.find({})
     .then(cards => res.send(cards))
-    .catch(err => res.status(500).send(errorStandart.message))
+    .catch(err => res.status(500).send({message: errorStandart.message}))
 }
 
 module.exports.createCard = (req, res) => {
@@ -19,10 +19,10 @@ module.exports.createCard = (req, res) => {
     .then(card => res.send({data: card}))
     .catch(err => {
       if(err.name === 'ValidationError') {
-        res.status(errorCreateCard.statusCode).send(errorCreateCard.message);
+        res.status(errorCreateCard.statusCode).send({message: errorCreateCard.message});
         return;
       }
-      res.status(500).send(errorStandart.message)
+      res.status(500).send({message: errorStandart.message})
     })
 }
 
@@ -31,10 +31,10 @@ module.exports.deleteCard = (req, res) => {
     .then(card => res.send({data: card}))
     .catch(err => {
       if(err.name === 'CastError') {
-        res.status(errorCardIsNotFound.statusCode).send(errorCardIsNotFound.message);
+        res.status(errorCardIsNotFound.statusCode).send({message: errorCardIsNotFound.message});
         return;
       }
-      res.status(500).send(errorStandart.message)
+      res.status(500).send({message: errorStandart.message})
     })
 }
 
@@ -45,14 +45,14 @@ module.exports.likeCard  = (req, res) => {
   .then(card => res.send({data: card}))
   .catch(err => {
     if(err.name === 'ValidationError') {
-      res.status(errorLikeDislikeCard.statusCode).send(errorLikeDislikeCard.message);
+      res.status(errorLikeDislikeCard.statusCode).send({message: errorLikeDislikeCard.message});
       return;
     }
     if(err.name === 'CastError') {
-      res.status(errorCardIsNotFound.statusCode).send(errorCardIsNotFound.message);
+      res.status(errorCardIsNotFound.statusCode).send({message: errorCardIsNotFound.message});
       return;
     }
-    res.status(500).send(errorStandart.message)
+    res.status(500).send({message: errorStandart.message})
   })
 }
 
@@ -63,13 +63,13 @@ module.exports.dislikeCard = (req, res) => {
   .then(card => res.send({data: card}))
   .catch(err => {
     if(err.name === 'ValidationError') {
-      res.status(errorLikeDislikeCard.statusCode).send(errorLikeDislikeCard.message);
+      res.status(errorLikeDislikeCard.statusCode).send({message: errorLikeDislikeCard.message});
       return;
     }
     if(err.name === 'CastError') {
-      res.status(errorCardIsNotFound.statusCode).send(errorCardIsNotFound.message);
+      res.status(errorCardIsNotFound.statusCode).send({message: errorCardIsNotFound.message});
       return;
     }
-    res.status(500).send(errorStandart.message)
+    res.status(500).send({message: errorStandart.message})
   })
 }

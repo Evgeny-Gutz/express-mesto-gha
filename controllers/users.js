@@ -10,7 +10,7 @@ const {
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then(users => res.send(users))
-    .catch(err => res.status(500).send(errorStandart.message))
+    .catch(err => res.status(500).send({message: errorStandart.message}))
 }
 
 module.exports.createUser = (req, res) => {
@@ -20,10 +20,10 @@ module.exports.createUser = (req, res) => {
     .then(user => res.send({data: user}))
     .catch(err => {
       if(err.name === 'ValidationError') {
-        res.status(errorCreateUser.statusCode).send(errorCreateUser.message);
+        res.status(errorCreateUser.statusCode).send({message: errorCreateUser.message});
         return;
       }
-      res.status(500).send(errorStandart.message);
+      res.status(500).send({message: errorStandart.message});
     })
 }
 
@@ -32,10 +32,10 @@ module.exports.findUser = (req, res) => {
     .then(user => res.send(dataUser(user)))
     .catch(err => {;
       if(err.name === 'CastError') {
-        res.status(errorUserIsNotFound.statusCode).send(errorUserIsNotFound.message);
+        res.status(errorUserIsNotFound.statusCode).send({message: errorUserIsNotFound.message});
         return;
       }
-      res.status(500).send(errorStandart.message)
+      res.status(500).send({message: errorStandart.message})
     })
 }
 
@@ -49,13 +49,13 @@ module.exports.updateUser = (req, res) => {
     .then(user => res.send(dataUser(user)))
     .catch(err => {
     if(err.name === 'ValidationError') {
-      res.status(errorUpdateUser.statusCode).send(errorUpdateUser.message);
+      res.status(errorUpdateUser.statusCode).send({message: errorUpdateUser.message});
     }
     if(err.name === 'CastError') {
-      res.status(errorUserIsNotFound.statusCode).send(errorUserIsNotFound.message);
+      res.status(errorUserIsNotFound.statusCode).send({message: errorUserIsNotFound.message});
       return;
     }
-    res.status(500).send(errorStandart.message)
+    res.status(500).send({message: errorStandart.message})
   })
 }
 
@@ -70,12 +70,12 @@ module.exports.updateAvatar = (req, res) => {
   .then(user => res.send(dataUser(user)))
   .catch(err => {
     if(err.name === 'ValidationError') {
-      res.status(errorUpdateAvatar.statusCode).send(errorUpdateAvatar.message);
+      res.status(errorUpdateAvatar.statusCode).send({message: errorUpdateAvatar.message});
     }
     if(err.name === 'CastError') {
-      res.status(errorUserIsNotFound.statusCode).send(errorUserIsNotFound.message);
+      res.status(errorUserIsNotFound.statusCode).send({message: errorUserIsNotFound.message});
       return;
     }
-    res.status(500).send(errorStandart.message)
+    res.status(500).send({message: errorStandart.message})
   })
 }
