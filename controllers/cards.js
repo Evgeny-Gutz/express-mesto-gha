@@ -39,11 +39,13 @@ module.exports.deleteCard = (req, res) => {
 }
 
 module.exports.likeCard  = (req, res) => {
+  console.log(req.params.cardId);
   Cards.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     {new: true,})
   .then(card => res.send({data: card}))
   .catch(err => {
+    console.log(err.name)
     if(err.name === 'ValidationError') {
       res.status(errorLikeDislikeCard.statusCode).send({message: errorLikeDislikeCard.message});
       return;

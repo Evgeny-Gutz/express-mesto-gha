@@ -33,9 +33,10 @@ module.exports.findUser = (req, res) => {
     .catch(err => {;
       if(err.name === 'CastError') {
         res.status(errorUserIsNotFound.statusCode).send({message: errorUserIsNotFound.message});
+        console.log(errorUserIsNotFound.statusCode);
         return;
       }
-      res.status(500).send({message: errorStandart.message})
+      res.status(404).send({message: errorStandart.message})
     })
 }
 
