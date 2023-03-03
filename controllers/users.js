@@ -36,7 +36,7 @@ module.exports.findUser = (req, res) => {
         console.log(errorUserIsNotFound.statusCode);
         return;
       }
-      res.status(404).send({message: errorStandart.message})
+      res.status(errorStandart.statusCode).send({message: errorStandart.message})
     })
 }
 
