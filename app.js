@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
+const {message404} = require('./utils/constants')
 
 const {PORT = 3000} = process.env;
 
@@ -34,6 +35,12 @@ app.use((req, res, next) => {
 });
 app.use('/cards', cards);
 
+app.route("/:any_other")
+  .get(message404)
+  .post(message404)
+  .put(message404)
+  .patch(message404)
+  .delete(message404)
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

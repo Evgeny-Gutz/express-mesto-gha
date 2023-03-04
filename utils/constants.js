@@ -7,3 +7,6 @@ module.exports.dataUser = (user) => {
   }
 }
 
+module.exports.message404 = (req, res)=>{
+  res.status(404).send({message: "Ошибка 404"})
+}
