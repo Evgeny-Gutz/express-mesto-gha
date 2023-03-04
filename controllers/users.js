@@ -5,6 +5,7 @@ const {
   errorUpdateUser,
   errorUpdateAvatar,
   errorUserIsNotFound,
+  errorFindUserById,
   errorStandart} = require('../utils/errors');
 
 module.exports.getUsers = (req, res) => {
@@ -32,7 +33,11 @@ module.exports.findUser = (req, res) => {
     .then(user => res.send(dataUser(user)))
     .catch(err => {;
       if(err.name === 'CastError') {
-        res.status(400).send({message: errorUserIsNotFound.message});
+        res.status(errorUserIsNotFound.statusCode).send({message: errorUserIsNotFound.message});
+        return;
+      }
+      if(err.name === "TypeError") {
+        res.status(errorFindUserById.statusCode).send({message: errorFindUserById.message});
         return;
       }
       res.status(500).send({message: errorStandart.message})
