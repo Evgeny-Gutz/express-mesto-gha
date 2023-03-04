@@ -26,7 +26,7 @@ module.exports.errorCreateUser = new ValidationError("Переданы неко�
 module.exports.errorUpdateUser = new ValidationError("Переданы некорректные данные при обновлении профиля.");
 module.exports.errorUpdateAvatar = new ValidationError("Переданы некорректные данные при обновлении аватара.");
 module.exports.errorFindUserById = new TypeError("Получение пользователя c несуществующим в БД id.");
-module.exports.errorUserIsNotFound = new CastError("Пользователь c указанному _id не найден.");
+module.exports.errorUserIsNotFound = new CastError("Пользователь c указанному _id не найден.", 400);
 
 const errorCreateCard = new ValidationError("Переданы некорректные данные при создании карточки.");
 const errorLikeDislikeCard = new ValidationError("Переданы некорректные данные для постановки/снятии лайка.");
