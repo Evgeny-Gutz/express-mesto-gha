@@ -1,12 +1,11 @@
 module.exports.dataUser = (user) => {
-  return {
-    name: user.name,
-    about: user.about,
-    avatar: user.avatar,
-    _id: user._id
-  }
-}
+  const obj = {};
+  obj.name = user.name;
+  obj.about = user.about;
+  obj.avatar = user.avatar;
+  return obj;
+};
 
-module.exports.message404 = (req, res)=>{
-  res.status(404).send({message: "Ошибка 404"})
-}
+module.exports.message404 = (req, res) => {
+  res.status(404).send({ message: "Ошибка 404" });
+};
