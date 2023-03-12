@@ -54,9 +54,8 @@ module.exports.updateUser = (req, res) => {
   })
     .then((user) => res.send(dataUser(user)))
     .catch((err) => {
-      if (err.name === "CastError") {
-        res.status(DATA_ERROR).send({ message: "Пользователь c указанному _id не найден." });
-        return;
+      if (err.name === "ValidationError") {
+        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные при обновлении профиля." });
       }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
@@ -74,10 +73,6 @@ module.exports.updateAvatar = (req, res) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(DATA_ERROR).send({ message: "Переданы некорректные данные при обновлении аватара." });
-      }
-      if (err.name === "CastError") {
-        res.status(SEARCH_ERROR).send({ message: "Пользователь c указанному _id не найден." });
-        return;
       }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
