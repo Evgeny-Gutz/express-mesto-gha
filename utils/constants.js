@@ -9,3 +9,6 @@ module.exports.dataUser = (user) => {
 module.exports.message404 = (req, res) => {
   res.status(404).send({ message: "Ошибка 404" });
 };
+module.exports.DEFAULT_ERROR = 500;
+module.exports.SEARCH_ERROR = 404;
+module.exports.DATA_ERROR = 400;
