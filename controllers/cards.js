@@ -7,6 +7,7 @@ const {
 
 module.exports.getCards = (req, res) => {
   Cards.find({})
+    .populate(["owner", "likes"])
     .then((cards) => res.send(cards))
     .catch(() => {
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
@@ -30,6 +31,7 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   Cards.findByIdAndRemove(req.params.cardId)
+    .populate(["owner", "likes"])
     .then((card) => {
       if (card) {
         res.send({ data: card });
@@ -56,6 +58,7 @@ module.exports.likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate(["owner", "likes"])
     .then((card) => {
       if (card) {
         res.send({ data: card });
@@ -86,6 +89,7 @@ module.exports.dislikeCard = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
+    .populate(["owner", "likes"])
     .then((card) => {
       if (card) {
         res.send({ data: card });
