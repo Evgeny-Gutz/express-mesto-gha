@@ -54,9 +54,6 @@ module.exports.updateUser = (req, res) => {
   })
     .then((user) => res.send(dataUser(user)))
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные при обновлении профиля." });
-      }
       if (err.name === "CastError") {
         res.status(DATA_ERROR).send({ message: "Пользователь c указанному _id не найден." });
         return;
