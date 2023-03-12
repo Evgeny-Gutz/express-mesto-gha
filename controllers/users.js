@@ -1,8 +1,5 @@
 const User = require("../models/user");
 const { dataUser } = require("../utils/constants");
-const {
-  addErrorsUpdateAvatar,
-} = require("../utils/errors");
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -73,7 +70,6 @@ module.exports.updateAvatar = (req, res) => {
   })
     .then((user) => res.send(dataUser(user)))
     .catch((err) => {
-      addErrorsUpdateAvatar(res, err);
       if (err.name === "ValidationError") {
         res.status(400).send({ message: "Переданы некорректные данные при обновлении аватара." });
       }
