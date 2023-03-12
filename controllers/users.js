@@ -1,10 +1,10 @@
 const User = require("../models/user");
-const { dataUser } = require("../utils/constants");
+const { dataUser } = require("../utils/utils");
 const {
   DEFAULT_ERROR,
   SEARCH_ERROR,
   DATA_ERROR,
-} = require("../utils/constants");
+} = require("../utils/utils");
 
 module.exports.getUsers = (req, res) => {
   User.find({})

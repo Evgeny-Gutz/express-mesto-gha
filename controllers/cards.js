@@ -3,7 +3,7 @@ const {
   DEFAULT_ERROR,
   SEARCH_ERROR,
   DATA_ERROR,
-} = require("../utils/constants");
+} = require("../utils/utils");
 
 module.exports.getCards = (req, res) => {
   Cards.find({})
