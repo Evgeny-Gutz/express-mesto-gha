@@ -44,10 +44,6 @@ module.exports.deleteCard = (req, res) => {
         res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
-      // if (err.name === "ReferenceError") {
-      //   res.status(SEARCH_ERROR).send({ message: err.message });
-      //   return;
-      // }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
@@ -67,18 +63,10 @@ module.exports.likeCard = (req, res) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
-        return;
-      }
       if (err.name === "CastError") {
         res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
-      // if (err.name === "ReferenceError") {
-      //   res.status(SEARCH_ERROR).send({ message: err.message });
-      //   return;
-      // }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
@@ -98,18 +86,10 @@ module.exports.dislikeCard = (req, res) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
-        return;
-      }
       if (err.name === "CastError") {
         res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
-      // if (err.name === "ReferenceError") {
-      //   res.status(SEARCH_ERROR).send({ message: err.message });
-      //   return;
-      // }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
