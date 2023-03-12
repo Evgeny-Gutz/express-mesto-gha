@@ -1,10 +1,15 @@
 const Cards = require("../models/card");
+const {
+  DEFAULT_ERROR,
+  SEARCH_ERROR,
+  DATA_ERROR,
+} = require("../utils/constants");
 
 module.exports.getCards = (req, res) => {
   Cards.find({})
     .then((cards) => res.send(cards))
     .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -16,10 +21,10 @@ module.exports.createCard = (req, res) => {
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "Переданы некорректные данные при создании карточки." });
+        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные при создании карточки." });
         return;
       }
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -34,14 +39,14 @@ module.exports.deleteCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(400).send({ message: "Карточка c указанным _id не найдена." });
+        res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
       if (err.name === "ReferenceError") {
-        res.status(404).send({ message: err.message });
+        res.status(SEARCH_ERROR).send({ message: err.message });
         return;
       }
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -60,18 +65,18 @@ module.exports.likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
+        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
         return;
       }
       if (err.name === "CastError") {
-        res.status(400).send({ message: "Карточка c указанным _id не найдена." });
+        res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
       if (err.name === "ReferenceError") {
-        res.status(404).send({ message: err.message });
+        res.status(SEARCH_ERROR).send({ message: err.message });
         return;
       }
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -90,17 +95,17 @@ module.exports.dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
+        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
         return;
       }
       if (err.name === "CastError") {
-        res.status(400).send({ message: "Карточка c указанным _id не найдена." });
+        res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
       if (err.name === "ReferenceError") {
-        res.status(404).send({ message: err.message });
+        res.status(SEARCH_ERROR).send({ message: err.message });
         return;
       }
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
