@@ -33,21 +33,21 @@ module.exports.deleteCard = (req, res) => {
   Cards.findByIdAndRemove(req.params.cardId)
     .populate(["owner", "likes"])
     .then((card) => {
-      if (card) {
-        res.send({ data: card });
+      if (!card) {
+        res.status(SEARCH_ERROR).send({ message: "Удаление карточки c несуществующим в БД id." });
         return;
       }
-      throw new ReferenceError("Удаление карточки c несуществующим в БД id.");
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === "CastError") {
         res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
-      if (err.name === "ReferenceError") {
-        res.status(SEARCH_ERROR).send({ message: err.message });
-        return;
-      }
+      // if (err.name === "ReferenceError") {
+      //   res.status(SEARCH_ERROR).send({ message: err.message });
+      //   return;
+      // }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
@@ -60,11 +60,11 @@ module.exports.likeCard = (req, res) => {
   )
     .populate(["owner", "likes"])
     .then((card) => {
-      if (card) {
-        res.send({ data: card });
+      if (!card) {
+        res.status(SEARCH_ERROR).send({ message: "Добавление лайка c несуществующим в БД id карточки." });
         return;
       }
-      throw new ReferenceError("Добавление лайка c несуществующим в БД id карточки.");
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -75,10 +75,10 @@ module.exports.likeCard = (req, res) => {
         res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
-      if (err.name === "ReferenceError") {
-        res.status(SEARCH_ERROR).send({ message: err.message });
-        return;
-      }
+      // if (err.name === "ReferenceError") {
+      //   res.status(SEARCH_ERROR).send({ message: err.message });
+      //   return;
+      // }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };
@@ -91,11 +91,11 @@ module.exports.dislikeCard = (req, res) => {
   )
     .populate(["owner", "likes"])
     .then((card) => {
-      if (card) {
-        res.send({ data: card });
+      if (!card) {
+        res.status(SEARCH_ERROR).send({ message: "Удаление лайка y карточки c несуществующим в БД id." });
         return;
       }
-      throw new ReferenceError("Удаление лайка y карточки c несуществующим в БД id.");
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -106,10 +106,10 @@ module.exports.dislikeCard = (req, res) => {
         res.status(DATA_ERROR).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
-      if (err.name === "ReferenceError") {
-        res.status(SEARCH_ERROR).send({ message: err.message });
-        return;
-      }
+      // if (err.name === "ReferenceError") {
+      //   res.status(SEARCH_ERROR).send({ message: err.message });
+      //   return;
+      // }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
     });
 };

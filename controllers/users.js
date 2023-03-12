@@ -30,14 +30,16 @@ module.exports.createUser = (req, res) => {
 
 module.exports.findUser = (req, res) => {
   User.findById(req.params.userId)
-    .then((user) => res.send(dataUser(user)))
+    .then((user) => {
+      if (!user) {
+        res.status(SEARCH_ERROR).send({ message: "Получение пользователя c несуществующим в БД id." });
+        return;
+      }
+      res.send(dataUser(user));
+    })
     .catch((err) => {
       if (err.name === "CastError") {
         res.status(DATA_ERROR).send({ message: "Пользователь c указанному _id не найден." });
-        return;
-      }
-      if (err.name === "TypeError") {
-        res.status(SEARCH_ERROR).send({ message: "Получение пользователя c несуществующим в БД id." });
         return;
       }
       res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
