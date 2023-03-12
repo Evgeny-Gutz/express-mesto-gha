@@ -29,12 +29,7 @@ app.use((req, res, next) => {
 });
 app.use("/cards", cards);
 
-app.route("/:any_other")
-  .get(message404)
-  .post(message404)
-  .put(message404)
-  .patch(message404)
-  .delete(message404);
+app.all("/:any_other", message404);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
