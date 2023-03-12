@@ -34,7 +34,7 @@ module.exports.deleteCard = (req, res) => {
     .then((card) => card)
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(404).send({ message: "Карточка c указанным _id не найдена." });
+        res.status(400).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
       if (err.name === "ReferenceError") {
@@ -94,7 +94,7 @@ module.exports.dislikeCard = (req, res) => {
         return;
       }
       if (err.name === "CastError") {
-        res.status(404).send({ message: "Карточка c указанным _id не найдена." });
+        res.status(400).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
       if (err.name === "ReferenceError") {
