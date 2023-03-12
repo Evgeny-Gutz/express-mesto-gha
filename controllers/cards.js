@@ -54,10 +54,10 @@ module.exports.likeCard = (req, res) => {
     .then((card) => {
       if (card) {
         res.send({ data: card });
+        return;
       }
-      return card;
+      throw new ReferenceError("Добавление лайка c несуществующим в БД id карточки.");
     })
-    .then((card) => card)
     .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
@@ -68,7 +68,7 @@ module.exports.likeCard = (req, res) => {
         return;
       }
       if (err.name === "ReferenceError") {
-        res.status(404).send({ message: "Добавление лайка c несуществующим в БД id карточки." });
+        res.status(404).send({ message: err.message });
         return;
       }
       res.status(500).send({ message: "Произошла ошибка" });
@@ -84,10 +84,10 @@ module.exports.dislikeCard = (req, res) => {
     .then((card) => {
       if (card) {
         res.send({ data: card });
+        return;
       }
-      return card;
+      throw new ReferenceError("Удаление лайка y карточки c несуществующим в БД id.");
     })
-    .then((card) => card)
     .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
@@ -98,7 +98,7 @@ module.exports.dislikeCard = (req, res) => {
         return;
       }
       if (err.name === "ReferenceError") {
-        res.status(404).send({ message: "Удаление лайка y карточки c несуществующим в БД id." });
+        res.status(404).send({ message: err.message });
         return;
       }
       res.status(500).send({ message: "Произошла ошибка" });
