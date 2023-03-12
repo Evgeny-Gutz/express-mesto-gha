@@ -28,17 +28,17 @@ module.exports.deleteCard = (req, res) => {
     .then((card) => {
       if (card) {
         res.send({ data: card });
+        return;
       }
-      return card;
+      throw new ReferenceError("Удаление карточки c несуществующим в БД id.");
     })
-    .then((card) => card)
     .catch((err) => {
       if (err.name === "CastError") {
         res.status(400).send({ message: "Карточка c указанным _id не найдена." });
         return;
       }
       if (err.name === "ReferenceError") {
-        res.status(404).send({ message: "Удаление карточки c несуществующим в БД id." });
+        res.status(404).send({ message: err.message });
         return;
       }
       res.status(500).send({ message: "Произошла ошибка" });
