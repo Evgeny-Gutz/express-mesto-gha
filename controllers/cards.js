@@ -1,15 +1,11 @@
 const Cards = require("../models/card");
-const {
-  addErrorsCardDelete,
-  addErrorsLike,
-  addErrorsDislike,
-  addErrorsCreateCard,
-} = require("../utils/errors");
 
 module.exports.getCards = (req, res) => {
   Cards.find({})
     .then((cards) => res.send(cards))
-    .catch(() => res.status(500).send({ message: "Стандартная ошибка" }));
+    .catch(() => {
+      res.status(500).send({ message: "Произошла ошибка" });
+    });
 };
 
 module.exports.createCard = (req, res) => {
@@ -19,7 +15,11 @@ module.exports.createCard = (req, res) => {
   Cards.create({ name, link, owner })
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
-      addErrorsCreateCard(res, err);
+      if (err.name === "ValidationError") {
+        res.status(400).send({ message: "Переданы некорректные данные при создании карточки." });
+        return;
+      }
+      res.status(500).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -33,7 +33,15 @@ module.exports.deleteCard = (req, res) => {
     })
     .then((card) => card)
     .catch((err) => {
-      addErrorsCardDelete(res, err);
+      if (err.name === "CastError") {
+        res.status(404).send({ message: "Карточка c указанным _id не найдена." });
+        return;
+      }
+      if (err.name === "ReferenceError") {
+        res.status(404).send({ message: "Удаление карточки c несуществующим в БД id." });
+        return;
+      }
+      res.status(500).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -51,7 +59,19 @@ module.exports.likeCard = (req, res) => {
     })
     .then((card) => card)
     .catch((err) => {
-      addErrorsLike(res, err);
+      if (err.name === "ValidationError") {
+        res.status(400).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
+        return;
+      }
+      if (err.name === "CastError") {
+        res.status(400).send({ message: "Карточка c указанным _id не найдена." });
+        return;
+      }
+      if (err.name === "ReferenceError") {
+        res.status(404).send({ message: "Добавление лайка c несуществующим в БД id карточки." });
+        return;
+      }
+      res.status(500).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -69,6 +89,18 @@ module.exports.dislikeCard = (req, res) => {
     })
     .then((card) => card)
     .catch((err) => {
-      addErrorsDislike(res, err);
+      if (err.name === "ValidationError") {
+        res.status(400).send({ message: "Переданы некорректные данные для постановки/снятии лайка." });
+        return;
+      }
+      if (err.name === "CastError") {
+        res.status(404).send({ message: "Карточка c указанным _id не найдена." });
+        return;
+      }
+      if (err.name === "ReferenceError") {
+        res.status(404).send({ message: "Удаление лайка y карточки c несуществующим в БД id." });
+        return;
+      }
+      res.status(500).send({ message: "Произошла ошибка" });
     });
 };
