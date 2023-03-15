@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const { dataUser } = require("../utils/utils");
 const {
@@ -15,16 +16,29 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-
-  User.create({ name, about, avatar })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(DATA_ERROR).send({ message: "Переданы некорректные данные при создании пользователя" });
-        return;
-      }
-      res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
+  const {
+    name,
+    about,
+    avatar,
+    email,
+  } = req.body;
+  bcrypt.hash(req.body.password, 10)
+    .then((hash) => {
+      User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      })
+        .then((user) => res.send({ data: user }))
+        .catch((err) => {
+          if (err.name === "ValidationError") {
+            res.status(DATA_ERROR).send({ message: "Переданы некорректные данные при создании пользователя" });
+            return;
+          }
+          res.status(DEFAULT_ERROR).send({ message: "Произошла ошибка" });
+        });
     });
 };
 
